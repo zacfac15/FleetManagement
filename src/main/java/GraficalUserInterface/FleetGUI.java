@@ -31,22 +31,38 @@ public class FleetGUI extends javax.swing.JFrame
   {
 
     buttonGroup1 = new javax.swing.ButtonGroup();
+    jButton3 = new javax.swing.JButton();
+    jButton2 = new javax.swing.JButton();
     jPanel3 = new javax.swing.JPanel();
     jPanel5 = new javax.swing.JPanel();
     rbPKW = new javax.swing.JRadioButton();
     rbLKW = new javax.swing.JRadioButton();
     jPanel4 = new javax.swing.JPanel();
     jButton1 = new javax.swing.JButton();
+    Clear = new javax.swing.JButton();
+    jButton5 = new javax.swing.JButton();
     jPanel1 = new javax.swing.JPanel();
     jScrollPane1 = new javax.swing.JScrollPane();
     jTable1 = new javax.swing.JTable();
     paParent = new javax.swing.JPanel();
     paPKW = new javax.swing.JPanel();
+    jLabel1 = new javax.swing.JLabel();
     tfID = new javax.swing.JTextField();
-    jTextField2 = new javax.swing.JTextField();
-    jTextField4 = new javax.swing.JTextField();
-    jTextField3 = new javax.swing.JTextField();
+    jLabel3 = new javax.swing.JLabel();
+    tfBrand = new javax.swing.JTextField();
+    jLabel6 = new javax.swing.JLabel();
+    tfSpez = new javax.swing.JTextField();
+    jLabel2 = new javax.swing.JLabel();
+    tfWeight = new javax.swing.JTextField();
+    jLabel4 = new javax.swing.JLabel();
+    tfSeats = new javax.swing.JTextField();
+    jLabel5 = new javax.swing.JLabel();
+    tfHorsepower = new javax.swing.JTextField();
     paLKW = new javax.swing.JPanel();
+
+    jButton3.setText("jButton3");
+
+    jButton2.setText("jButton2");
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,6 +72,7 @@ public class FleetGUI extends javax.swing.JFrame
     jPanel5.setLayout(new java.awt.GridLayout(1, 2));
 
     buttonGroup1.add(rbPKW);
+    rbPKW.setSelected(true);
     rbPKW.setText("PKW");
     rbPKW.addActionListener(new java.awt.event.ActionListener()
     {
@@ -79,7 +96,7 @@ public class FleetGUI extends javax.swing.JFrame
 
     jPanel3.add(jPanel5, java.awt.BorderLayout.CENTER);
 
-    jPanel4.setLayout(new java.awt.GridLayout());
+    jPanel4.setLayout(new java.awt.GridLayout(1, 3));
 
     jButton1.setText("Add");
     jButton1.addActionListener(new java.awt.event.ActionListener()
@@ -91,11 +108,24 @@ public class FleetGUI extends javax.swing.JFrame
     });
     jPanel4.add(jButton1);
 
+    Clear.setText("Clear");
+    jPanel4.add(Clear);
+
+    jButton5.setText("Change");
+    jButton5.addActionListener(new java.awt.event.ActionListener()
+    {
+      public void actionPerformed(java.awt.event.ActionEvent evt)
+      {
+        jButton5ActionPerformed(evt);
+      }
+    });
+    jPanel4.add(jButton5);
+
     jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
 
     getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
-    jPanel1.setLayout(new java.awt.GridLayout());
+    jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
     jTable1.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][]
@@ -118,17 +148,34 @@ public class FleetGUI extends javax.swing.JFrame
 
     paParent.setLayout(new java.awt.CardLayout());
 
-    paPKW.setLayout(new java.awt.GridLayout(3, 3));
+    paPKW.setLayout(new java.awt.GridLayout(2, 6));
+
+    jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    jLabel1.setText("ID");
+    paPKW.add(jLabel1);
+
+    tfID.setEnabled(false);
     paPKW.add(tfID);
 
-    jTextField2.setText("jTextField2");
-    paPKW.add(jTextField2);
+    jLabel3.setText("Brand");
+    paPKW.add(jLabel3);
+    paPKW.add(tfBrand);
 
-    jTextField4.setText("jTextField4");
-    paPKW.add(jTextField4);
+    jLabel6.setText("Spezification");
+    paPKW.add(jLabel6);
+    paPKW.add(tfSpez);
 
-    jTextField3.setText("jTextField3");
-    paPKW.add(jTextField3);
+    jLabel2.setText("Weight");
+    paPKW.add(jLabel2);
+    paPKW.add(tfWeight);
+
+    jLabel4.setText("Seats");
+    paPKW.add(jLabel4);
+    paPKW.add(tfSeats);
+
+    jLabel5.setText("HorsePower");
+    paPKW.add(jLabel5);
+    paPKW.add(tfHorsepower);
 
     paParent.add(paPKW, "card3");
 
@@ -136,11 +183,11 @@ public class FleetGUI extends javax.swing.JFrame
     paLKW.setLayout(paLKWLayout);
     paLKWLayout.setHorizontalGroup(
       paLKWLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 407, Short.MAX_VALUE)
+      .addGap(0, 486, Short.MAX_VALUE)
     );
     paLKWLayout.setVerticalGroup(
       paLKWLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 100, Short.MAX_VALUE)
+      .addGap(0, 116, Short.MAX_VALUE)
     );
 
     paParent.add(paLKW, "card2");
@@ -168,6 +215,11 @@ public class FleetGUI extends javax.swing.JFrame
   {//GEN-HEADEREND:event_jButton1ActionPerformed
    
   }//GEN-LAST:event_jButton1ActionPerformed
+
+  private void jButton5ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton5ActionPerformed
+  {//GEN-HEADEREND:event_jButton5ActionPerformed
+    
+  }//GEN-LAST:event_jButton5ActionPerformed
 
   /**
    * @param args the command line arguments
@@ -219,22 +271,34 @@ public class FleetGUI extends javax.swing.JFrame
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JButton Clear;
   private javax.swing.ButtonGroup buttonGroup1;
   private javax.swing.JButton jButton1;
+  private javax.swing.JButton jButton2;
+  private javax.swing.JButton jButton3;
+  private javax.swing.JButton jButton5;
+  private javax.swing.JLabel jLabel1;
+  private javax.swing.JLabel jLabel2;
+  private javax.swing.JLabel jLabel3;
+  private javax.swing.JLabel jLabel4;
+  private javax.swing.JLabel jLabel5;
+  private javax.swing.JLabel jLabel6;
   private javax.swing.JPanel jPanel1;
   private javax.swing.JPanel jPanel3;
   private javax.swing.JPanel jPanel4;
   private javax.swing.JPanel jPanel5;
   private javax.swing.JScrollPane jScrollPane1;
   private javax.swing.JTable jTable1;
-  private javax.swing.JTextField jTextField2;
-  private javax.swing.JTextField jTextField3;
-  private javax.swing.JTextField jTextField4;
   private javax.swing.JPanel paLKW;
   private javax.swing.JPanel paPKW;
   private javax.swing.JPanel paParent;
   private javax.swing.JRadioButton rbLKW;
   private javax.swing.JRadioButton rbPKW;
+  private javax.swing.JTextField tfBrand;
+  private javax.swing.JTextField tfHorsepower;
   private javax.swing.JTextField tfID;
+  private javax.swing.JTextField tfSeats;
+  private javax.swing.JTextField tfSpez;
+  private javax.swing.JTextField tfWeight;
   // End of variables declaration//GEN-END:variables
 }
