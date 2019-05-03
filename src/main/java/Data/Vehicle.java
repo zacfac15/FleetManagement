@@ -14,6 +14,4 @@ public class Vehicle
     this.hp = hp;
     this.weight = weight;
   }
-  
-  
 }
