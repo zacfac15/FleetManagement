@@ -5,6 +5,7 @@
  */
 package GraficalUserInterface;
 
+import FleetModel.FleetModel;
 import java.awt.CardLayout;
 
 /**
@@ -14,12 +15,11 @@ import java.awt.CardLayout;
 public class FleetGUI extends javax.swing.JFrame
 {
 
-  /**
-   * Creates new form FleetGUI
-   */
+  private FleetModel fm = new FleetModel();
   public FleetGUI()
   {
     initComponents();
+    jtTable.setModel(fm);
   }
 
   /**
@@ -43,7 +43,7 @@ public class FleetGUI extends javax.swing.JFrame
     Clear = new javax.swing.JButton();
     jPanel1 = new javax.swing.JPanel();
     jScrollPane1 = new javax.swing.JScrollPane();
-    jTable1 = new javax.swing.JTable();
+    jtTable = new javax.swing.JTable();
     paParent = new javax.swing.JPanel();
     paPKW = new javax.swing.JPanel();
     jLabel1 = new javax.swing.JLabel();
@@ -123,7 +123,7 @@ public class FleetGUI extends javax.swing.JFrame
 
     jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-    jTable1.setModel(new javax.swing.table.DefaultTableModel(
+    jtTable.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][]
       {
         {null, null, null, null},
@@ -136,7 +136,7 @@ public class FleetGUI extends javax.swing.JFrame
         "Title 1", "Title 2", "Title 3", "Title 4"
       }
     ));
-    jScrollPane1.setViewportView(jTable1);
+    jScrollPane1.setViewportView(jtTable);
 
     jPanel1.add(jScrollPane1);
 
@@ -267,19 +267,21 @@ public class FleetGUI extends javax.swing.JFrame
   {//GEN-HEADEREND:event_onFilterPKW
     CardLayout layout = (CardLayout) paParent.getLayout();
     layout.show(paParent, "cardPKW");
-    //paParent.add(paPKW,"",0);repaint();
+    fm.isPkw(true);
+    
   }//GEN-LAST:event_onFilterPKW
 
   private void onFilterLKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onFilterLKW
   {//GEN-HEADEREND:event_onFilterLKW
     CardLayout layout = (CardLayout) paParent.getLayout();
     layout.show(paParent, "cardLKW");
-    //paParent.add(paLKW,"",0);repaint();
+    fm.isPkw(false);
+    
   }//GEN-LAST:event_onFilterLKW
 
   private void onAddLKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onAddLKW
   {//GEN-HEADEREND:event_onAddLKW
-
+    
   }//GEN-LAST:event_onAddLKW
 
   private void onChangeLKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onChangeLKW
@@ -372,7 +374,7 @@ public class FleetGUI extends javax.swing.JFrame
   private javax.swing.JPanel jPanel4;
   private javax.swing.JPanel jPanel5;
   private javax.swing.JScrollPane jScrollPane1;
-  private javax.swing.JTable jTable1;
+  private javax.swing.JTable jtTable;
   private javax.swing.JPanel paLKW;
   private javax.swing.JPanel paPKW;
   private javax.swing.JPanel paParent;
