@@ -34,6 +34,7 @@ public class FleetModel extends AbstractTableModel
   public void isPkw(boolean pkw)
   {
     this.pkw = pkw;
+    this.fireTableStructureChanged();
   }
   
   @Override
@@ -48,7 +49,4 @@ public class FleetModel extends AbstractTableModel
        return colNamesLKW[column];
      }
   }
-  
-  
-  
 }

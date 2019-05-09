@@ -14,12 +14,14 @@ import java.awt.CardLayout;
  */
 public class FleetGUI extends javax.swing.JFrame
 {
-
+  
   private FleetModel fm = new FleetModel();
+
   public FleetGUI()
   {
     initComponents();
     jtTable.setModel(fm);
+    fm.isPkw(true);
   }
 
   /**
@@ -276,7 +278,7 @@ public class FleetGUI extends javax.swing.JFrame
     CardLayout layout = (CardLayout) paParent.getLayout();
     layout.show(paParent, "cardLKW");
     fm.isPkw(false);
-    
+    repaint();
   }//GEN-LAST:event_onFilterLKW
 
   private void onAddLKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onAddLKW
@@ -291,7 +293,12 @@ public class FleetGUI extends javax.swing.JFrame
 
   private void onAddPKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onAddPKW
   {//GEN-HEADEREND:event_onAddPKW
-
+     int id = Integer.parseInt(tfID.getText());
+     String brand = tfBrand.getText();
+     String spez = tfSpez.getText();
+     int hp = Integer.parseInt(tfHorsepower.getText());
+     int seats = Integer.parseInt(tfSeats.getText());
+     int weight = Integer.parseInt(tfWeight.getText());
   }//GEN-LAST:event_onAddPKW
 
   private void onChangePKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onChangePKW
