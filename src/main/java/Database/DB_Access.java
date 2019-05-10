@@ -65,4 +65,35 @@ public class DB_Access
     
     return pkw;
   }
+  
+  public void insertPKW(int index, ArrayList<PKW> list) throws SQLException
+  {
+    Statement statement = conn.createStatement();
+    String sqlString = "INSERT INTO PKW ﻿(ID, Brand, Spezification, Weight, Seats, Horsepower)\n"
+            + "VALUES ('student_id" 
+            + list.get(index).getId() +  "','"
+            + list.get(index).getBrand()+ "','"
+            + list.get(index).getSpez()+"','"
+            + list.get(index).getWeight()+"','"
+            + list.get(index).getSeats()+ "','"
+            + list.get(index).getHp()+"')";
+    statement.executeUpdate(sqlString);
+    statement.close();
+  }
+  
+  public void insertLKW(int index, ArrayList<LKW> list) throws SQLException
+  {
+    Statement statement = conn.createStatement();
+    String sqlString = "INSERT INTO PKW ﻿(ID, Brand, Axes, Weight, Kilometers, Horsepower)\n"
+            + "VALUES ('student_id" 
+            + list.get(index).getId() +  "','"
+            + list.get(index).getBrand()+ "','"
+            + list.get(index).getAxes()+"','"
+            + list.get(index).getWeight()+"','"
+            + list.get(index).getKilometers()+ "','"
+            + list.get(index).getHp()+"')";
+    statement.executeUpdate(sqlString);
+    statement.close();
+  }
+  
 }
