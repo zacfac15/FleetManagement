@@ -1,11 +1,11 @@
 package Data;
 
-public class Vehicle
+public abstract class Vehicle
 {
-  private int id;
-  private String brand;
-  private int hp;
-  private int weight;
+  protected int id;
+  protected String brand;
+  protected int hp;
+  protected int weight;
 
   /**
    * 

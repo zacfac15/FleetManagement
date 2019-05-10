@@ -5,7 +5,7 @@ public class LKW extends Vehicle
   private int axes;
   private int kilometers;
 
-  public LKW(int axes, int kilometers, int id, String brand, int hp, int weight)
+  public LKW(int id, String brand,int axes, int weight,int kilometers,int hp)
   {
     super(id, brand, hp, weight);
     this.axes = axes;

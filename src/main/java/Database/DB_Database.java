@@ -70,7 +70,6 @@ public class DB_Database implements DB_Config
   public static void main(String[] args)
   {
     DB_Database.getInstance();
-    // System.err.println("Gabsi braucht ein Bier");
   }
 }
 

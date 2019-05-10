@@ -1,7 +1,5 @@
 package FleetModel;
 
-import Data.LKW;
-import Data.PKW;
 import Data.Vehicle;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
@@ -29,6 +27,11 @@ public class FleetModel extends AbstractTableModel
   public Object getValueAt(int rowIndex, int columnIndex)
   {
     return list.get(rowIndex);
+  }
+  
+  public void getPKW()
+  {
+    
   }
 
   public void isPkw(boolean pkw)
