@@ -4,8 +4,10 @@ import Data.LKW;
 import Data.PKW;
 import Database.DB_Access;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -60,6 +62,11 @@ public class FleetModelPKW extends AbstractTableModel
     }
   }
 
+  /**
+   * to add a PKW in the list and in the Database, if it is not existing
+   * @param p PKW object
+   * @throws SQLException 
+   */
   public void addPKW(PKW p) throws SQLException
   {
     if (!(pkwList.contains(p)))
@@ -70,6 +77,10 @@ public class FleetModelPKW extends AbstractTableModel
     }
   }
 
+  /**
+   * to synchronize the data with the database
+   * @throws SQLException 
+   */
   public void initPKWList() throws SQLException
   {
     pkwList = db.getPKW();
@@ -81,7 +92,11 @@ public class FleetModelPKW extends AbstractTableModel
     return colNamesPKW[column];
   }
 
-  public void saveLKW() throws IOException
+  /**
+   * to save data in a File
+   * @throws IOException 
+   */
+  public void savePKW() throws IOException
   {
     FileOutputStream fos = new FileOutputStream(filename);
     ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -91,5 +106,27 @@ public class FleetModelPKW extends AbstractTableModel
       oos.writeObject(pkw);
     }
     oos.close();
+  }
+  
+  /**
+   * To load data from a file
+   * @throws IOException
+   * @throws ClassNotFoundException 
+   */
+  
+  public void loadPKW() throws IOException, ClassNotFoundException
+  {
+
+    FileInputStream fis = new FileInputStream(filename);
+    ObjectInputStream ois = new ObjectInputStream(fis);
+
+    Object obj = ois.readObject();
+
+    if (obj instanceof LKW)
+    {
+      PKW pkw = (PKW) obj;
+      pkwList.add(pkw);
+    }
+    ois.close();
   }
 }

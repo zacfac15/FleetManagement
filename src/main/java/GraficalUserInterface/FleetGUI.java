@@ -11,9 +11,11 @@ import Data.LKW;
 import Data.PKW;
 import Database.DB_Access;
 import FleetModel.FleetModelLKW;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,6 +33,7 @@ public class FleetGUI extends javax.swing.JFrame
     initComponents();
     jtPKW.setModel(fmp);
     jtLKW.setModel(fml);
+    JOptionPane.showMessageDialog(this, "Please make sure that your Database is Running before you add your Data");
 
     try
     {
@@ -54,8 +57,6 @@ public class FleetGUI extends javax.swing.JFrame
   {
 
     buttonGroup1 = new javax.swing.ButtonGroup();
-    jButton3 = new javax.swing.JButton();
-    jButton2 = new javax.swing.JButton();
     jPanel3 = new javax.swing.JPanel();
     jPanel5 = new javax.swing.JPanel();
     rbPKW = new javax.swing.JRadioButton();
@@ -84,7 +85,7 @@ public class FleetGUI extends javax.swing.JFrame
     tfSeats = new javax.swing.JTextField();
     jLabel5 = new javax.swing.JLabel();
     tfHorsepower = new javax.swing.JTextField();
-    jButton5 = new javax.swing.JButton();
+    jLabel14 = new javax.swing.JLabel();
     paLKW = new javax.swing.JPanel();
     jLabel8 = new javax.swing.JLabel();
     tfIDLkw = new javax.swing.JTextField();
@@ -99,14 +100,12 @@ public class FleetGUI extends javax.swing.JFrame
     tfAxes = new javax.swing.JTextField();
     jLabel13 = new javax.swing.JLabel();
     tfKilo = new javax.swing.JTextField();
-    jButton6 = new javax.swing.JButton();
+    jLabel15 = new javax.swing.JLabel();
     jMenuBar1 = new javax.swing.JMenuBar();
     jMenu1 = new javax.swing.JMenu();
     jMenuItem1 = new javax.swing.JMenuItem();
-
-    jButton3.setText("jButton3");
-
-    jButton2.setText("jButton2");
+    jMenuItem2 = new javax.swing.JMenuItem();
+    jMenuItem3 = new javax.swing.JMenuItem();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,6 +142,13 @@ public class FleetGUI extends javax.swing.JFrame
     jPanel4.setLayout(new java.awt.GridLayout(1, 3));
 
     Clear.setText("Clear");
+    Clear.addActionListener(new java.awt.event.ActionListener()
+    {
+      public void actionPerformed(java.awt.event.ActionEvent evt)
+      {
+        onClear(evt);
+      }
+    });
     jPanel4.add(Clear);
 
     jPanel3.add(jPanel4, java.awt.BorderLayout.WEST);
@@ -250,16 +256,7 @@ public class FleetGUI extends javax.swing.JFrame
 
     tfHorsepower.setText("225");
     paPKW.add(tfHorsepower);
-
-    jButton5.setText("Change");
-    jButton5.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(java.awt.event.ActionEvent evt)
-      {
-        onChangePKW(evt);
-      }
-    });
-    paPKW.add(jButton5);
+    paPKW.add(jLabel14);
 
     paParent.add(paPKW, "cardPKW");
 
@@ -319,22 +316,20 @@ public class FleetGUI extends javax.swing.JFrame
 
     tfKilo.setText("172000");
     paLKW.add(tfKilo);
-
-    jButton6.setText("Change");
-    jButton6.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(java.awt.event.ActionEvent evt)
-      {
-        onChangeLKW(evt);
-      }
-    });
-    paLKW.add(jButton6);
+    paLKW.add(jLabel15);
 
     paParent.add(paLKW, "cardLKW");
 
     getContentPane().add(paParent, java.awt.BorderLayout.PAGE_END);
 
     jMenu1.setText("File");
+    jMenu1.addActionListener(new java.awt.event.ActionListener()
+    {
+      public void actionPerformed(java.awt.event.ActionEvent evt)
+      {
+        onLoad(evt);
+      }
+    });
 
     jMenuItem1.setText("add Tables");
     jMenuItem1.setToolTipText("");
@@ -346,6 +341,19 @@ public class FleetGUI extends javax.swing.JFrame
       }
     });
     jMenu1.add(jMenuItem1);
+
+    jMenuItem2.setText("save Data in Serzializedfile");
+    jMenuItem2.addActionListener(new java.awt.event.ActionListener()
+    {
+      public void actionPerformed(java.awt.event.ActionEvent evt)
+      {
+        onSaveData(evt);
+      }
+    });
+    jMenu1.add(jMenuItem2);
+
+    jMenuItem3.setText("loadData");
+    jMenu1.add(jMenuItem3);
 
     jMenuBar1.add(jMenu1);
 
@@ -392,11 +400,6 @@ public class FleetGUI extends javax.swing.JFrame
     }
   }//GEN-LAST:event_onAddLKW
 
-  private void onChangeLKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onChangeLKW
-  {//GEN-HEADEREND:event_onChangeLKW
-
-  }//GEN-LAST:event_onChangeLKW
-
   private void onAddPKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onAddPKW
   {//GEN-HEADEREND:event_onAddPKW
     int id = Integer.parseInt(tfID.getText());
@@ -417,11 +420,6 @@ public class FleetGUI extends javax.swing.JFrame
     }
   }//GEN-LAST:event_onAddPKW
 
-  private void onChangePKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onChangePKW
-  {//GEN-HEADEREND:event_onChangePKW
-
-  }//GEN-LAST:event_onChangePKW
-
   private void onAddTables(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onAddTables
   {//GEN-HEADEREND:event_onAddTables
     try
@@ -433,6 +431,43 @@ public class FleetGUI extends javax.swing.JFrame
       Logger.getLogger(FleetGUI.class.getName()).log(Level.SEVERE, null, ex);
     }
   }//GEN-LAST:event_onAddTables
+
+  private void onSaveData(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSaveData
+  {//GEN-HEADEREND:event_onSaveData
+    try
+    {
+      fmp.savePKW();
+      fml.saveLKW();
+    }
+    catch (IOException ex)
+    {
+      Logger.getLogger(FleetGUI.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }//GEN-LAST:event_onSaveData
+
+  private void onClear(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onClear
+  {//GEN-HEADEREND:event_onClear
+
+  }//GEN-LAST:event_onClear
+
+  private void onLoad(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onLoad
+  {//GEN-HEADEREND:event_onLoad
+    try
+    {
+      fmp.loadPKW();
+      fml.loadLKW();
+
+      JOptionPane.showMessageDialog(this, "Please make sure you have the right synchronization with the Database");
+    }
+    catch (IOException ex)
+    {
+      Logger.getLogger(FleetGUI.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    catch (ClassNotFoundException ex)
+    {
+      Logger.getLogger(FleetGUI.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }//GEN-LAST:event_onLoad
 
   /**
    * @param args the command line arguments
@@ -487,16 +522,14 @@ public class FleetGUI extends javax.swing.JFrame
   private javax.swing.JButton Clear;
   private javax.swing.ButtonGroup buttonGroup1;
   private javax.swing.JButton jButton1;
-  private javax.swing.JButton jButton2;
-  private javax.swing.JButton jButton3;
   private javax.swing.JButton jButton4;
-  private javax.swing.JButton jButton5;
-  private javax.swing.JButton jButton6;
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel10;
   private javax.swing.JLabel jLabel11;
   private javax.swing.JLabel jLabel12;
   private javax.swing.JLabel jLabel13;
+  private javax.swing.JLabel jLabel14;
+  private javax.swing.JLabel jLabel15;
   private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel3;
   private javax.swing.JLabel jLabel4;
@@ -507,6 +540,8 @@ public class FleetGUI extends javax.swing.JFrame
   private javax.swing.JMenu jMenu1;
   private javax.swing.JMenuBar jMenuBar1;
   private javax.swing.JMenuItem jMenuItem1;
+  private javax.swing.JMenuItem jMenuItem2;
+  private javax.swing.JMenuItem jMenuItem3;
   private javax.swing.JPanel jPanel3;
   private javax.swing.JPanel jPanel4;
   private javax.swing.JPanel jPanel5;

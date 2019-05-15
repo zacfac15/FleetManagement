@@ -62,11 +62,23 @@ public class FleetModelLKW extends AbstractTableModel
     }
   }
 
+  /**
+   * add the Data from the Database in the list
+   *
+   * @throws SQLException
+   *
+   */
   public void initLKWList() throws SQLException
   {
     lkwList = db.getLKW();
   }
 
+  /**
+   * adds the Data in a List and the Database
+   *
+   * @param l LKW object
+   * @throws SQLException
+   */
   public void addLKW(LKW l) throws SQLException
   {
     if (!(lkwList.contains(l)))
@@ -83,6 +95,11 @@ public class FleetModelLKW extends AbstractTableModel
     return colNamesLKW[column];
   }
 
+  /**
+   * to save the data from the list in File
+   *
+   * @throws IOException
+   */
   public void saveLKW() throws IOException
   {
     FileOutputStream fos = new FileOutputStream(filename);
@@ -94,5 +111,26 @@ public class FleetModelLKW extends AbstractTableModel
     }
 
     oos.close();
+  }
+
+  /**
+   * To load from a File
+   * @throws IOException
+   * @throws ClassNotFoundException 
+   */
+  public void loadLKW() throws IOException, ClassNotFoundException
+  {
+
+    FileInputStream fis = new FileInputStream(filename);
+    ObjectInputStream ois = new ObjectInputStream(fis);
+
+    Object obj = ois.readObject();
+
+    if (obj instanceof LKW)
+    {
+      LKW lkw = (LKW) obj;
+      lkwList.add(lkw);
+    }
+    ois.close();
   }
 }

@@ -31,6 +31,13 @@ public class DB_Access
     return instance;
   }
 
+  
+  /**
+   * LKW data Synchronization with the database, data will be shown in the table
+   * @return
+   * @throws SQLException 
+   *  
+   */
   public ArrayList<LKW> getLKW() throws SQLException
   {
     ArrayList<LKW> lkw = new ArrayList<>();
@@ -49,6 +56,12 @@ public class DB_Access
     return lkw;
   }
 
+  /**
+   * PKW data Synchronization with the database, data will be shown in the table
+   * @return
+   * @throws SQLException 
+   * 
+   */
   public ArrayList<PKW> getPKW() throws SQLException
   {
     ArrayList<PKW> pkw = new ArrayList<>();
@@ -66,7 +79,12 @@ public class DB_Access
 
     return pkw;
   }
-
+  
+  /**
+   * create the PKW Table in the Database
+   * @throws SQLException 
+   * 
+   */
   public void createTablePKW() throws SQLException
   {
     String sql = "CREATE TABLE PKW\n"
@@ -83,6 +101,11 @@ public class DB_Access
     stat.executeUpdate(sql);
   }
 
+  /**
+   * create the LKW Table in the Database
+   * @throws SQLException 
+   * 
+   */
   public void createTableLKW() throws SQLException
   {
     String sql = "CREATE TABLE LKW\n"
@@ -99,6 +122,13 @@ public class DB_Access
     stat.executeUpdate(sql);
   }
 
+  /**
+   * to insert data in the Database
+   * @param index to know which Object will be added in the Database
+   * @param list with all known Data
+   * @throws SQLException 
+   *  
+   */
   public void insertPKW(int index, ArrayList<PKW> list) throws SQLException
   {
     Statement statement = conn.createStatement();
@@ -115,6 +145,13 @@ public class DB_Access
     statement.close();
   }
 
+  /**
+   * to insert data in the Database
+   * @param index to know which Object will be added in the Database
+   * @param list with all known Data
+   * @throws SQLException 
+   * 
+   */
   public void insertLKW(int index, ArrayList<LKW> list) throws SQLException
   {
     Statement statement = conn.createStatement();
@@ -130,16 +167,16 @@ public class DB_Access
     statement.execute(sqlString);
     statement.close();
   }
+  
+  /**
+   * To add the tables function not nessesary but its easier to read
+   * @throws SQLException 
+   * 
+   */
 
   public void addTables() throws SQLException
   {
     createTableLKW();
     createTablePKW();
   }
-
-  public static void main(String[] args)
-  {
-
-  }
-
 }
