@@ -5,8 +5,15 @@
  */
 package GraficalUserInterface;
 
-import FleetModel.FleetModel;
+import FleetModel.FleetModelPKW;
 import java.awt.CardLayout;
+import Data.LKW;
+import Data.PKW;
+import Database.DB_Access;
+import FleetModel.FleetModelLKW;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,14 +21,26 @@ import java.awt.CardLayout;
  */
 public class FleetGUI extends javax.swing.JFrame
 {
-  
-  private FleetModel fm = new FleetModel();
+
+  private FleetModelPKW fmp = new FleetModelPKW();
+  private FleetModelLKW fml = new FleetModelLKW();
+  private DB_Access db = DB_Access.getInstance();
 
   public FleetGUI()
   {
     initComponents();
-    jtTable.setModel(fm);
-    fm.isPkw(true);
+    jtPKW.setModel(fmp);
+    jtLKW.setModel(fml);
+
+    try
+    {
+      fml.initLKWList();
+      fmp.initPKWList();
+    }
+    catch (SQLException ex)
+    {
+      Logger.getLogger(FleetGUI.class.getName()).log(Level.SEVERE, null, ex);
+    }
   }
 
   /**
@@ -43,9 +62,13 @@ public class FleetGUI extends javax.swing.JFrame
     rbLKW = new javax.swing.JRadioButton();
     jPanel4 = new javax.swing.JPanel();
     Clear = new javax.swing.JButton();
-    jPanel1 = new javax.swing.JPanel();
-    jScrollPane1 = new javax.swing.JScrollPane();
-    jtTable = new javax.swing.JTable();
+    paListParent = new javax.swing.JPanel();
+    paPKWL = new javax.swing.JPanel();
+    jScrollPane2 = new javax.swing.JScrollPane();
+    jtPKW = new javax.swing.JTable();
+    paLKWL = new javax.swing.JPanel();
+    jScrollPane3 = new javax.swing.JScrollPane();
+    jtLKW = new javax.swing.JTable();
     paParent = new javax.swing.JPanel();
     paPKW = new javax.swing.JPanel();
     jLabel1 = new javax.swing.JLabel();
@@ -77,6 +100,9 @@ public class FleetGUI extends javax.swing.JFrame
     jLabel13 = new javax.swing.JLabel();
     tfKilo = new javax.swing.JTextField();
     jButton6 = new javax.swing.JButton();
+    jMenuBar1 = new javax.swing.JMenuBar();
+    jMenu1 = new javax.swing.JMenu();
+    jMenuItem1 = new javax.swing.JMenuItem();
 
     jButton3.setText("jButton3");
 
@@ -123,9 +149,11 @@ public class FleetGUI extends javax.swing.JFrame
 
     getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
-    jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+    paListParent.setLayout(new java.awt.CardLayout());
 
-    jtTable.setModel(new javax.swing.table.DefaultTableModel(
+    paPKWL.setLayout(new java.awt.GridLayout(1, 0));
+
+    jtPKW.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][]
       {
         {null, null, null, null},
@@ -138,11 +166,34 @@ public class FleetGUI extends javax.swing.JFrame
         "Title 1", "Title 2", "Title 3", "Title 4"
       }
     ));
-    jScrollPane1.setViewportView(jtTable);
+    jScrollPane2.setViewportView(jtPKW);
 
-    jPanel1.add(jScrollPane1);
+    paPKWL.add(jScrollPane2);
 
-    getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+    paListParent.add(paPKWL, "card3");
+
+    paLKWL.setLayout(new java.awt.GridLayout(1, 0));
+
+    jtLKW.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][]
+      {
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null}
+      },
+      new String []
+      {
+        "Title 1", "Title 2", "Title 3", "Title 4"
+      }
+    ));
+    jScrollPane3.setViewportView(jtLKW);
+
+    paLKWL.add(jScrollPane3);
+
+    paListParent.add(paLKWL, "card2");
+
+    getContentPane().add(paListParent, java.awt.BorderLayout.CENTER);
 
     paParent.setLayout(new java.awt.CardLayout());
 
@@ -152,18 +203,21 @@ public class FleetGUI extends javax.swing.JFrame
     jLabel1.setText("ID");
     paPKW.add(jLabel1);
 
-    tfID.setEditable(false);
-    tfID.setEnabled(false);
+    tfID.setText("1");
     paPKW.add(tfID);
 
     jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel3.setText("Brand");
     paPKW.add(jLabel3);
+
+    tfBrand.setText("BMW");
     paPKW.add(tfBrand);
 
     jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel6.setText("Spezification");
     paPKW.add(jLabel6);
+
+    tfSpez.setText("X1");
     paPKW.add(tfSpez);
 
     jButton1.setText("Add");
@@ -179,16 +233,22 @@ public class FleetGUI extends javax.swing.JFrame
     jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel2.setText("Weight");
     paPKW.add(jLabel2);
+
+    tfWeight.setText("1500");
     paPKW.add(tfWeight);
 
     jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel4.setText("Seats");
     paPKW.add(jLabel4);
+
+    tfSeats.setText("5");
     paPKW.add(tfSeats);
 
     jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel5.setText("HorsePower");
     paPKW.add(jLabel5);
+
+    tfHorsepower.setText("225");
     paPKW.add(tfHorsepower);
 
     jButton5.setText("Change");
@@ -203,6 +263,7 @@ public class FleetGUI extends javax.swing.JFrame
 
     paParent.add(paPKW, "cardPKW");
 
+    paLKW.setEnabled(false);
     paLKW.setLayout(new java.awt.GridLayout(2, 7));
 
     jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -210,17 +271,22 @@ public class FleetGUI extends javax.swing.JFrame
     jLabel8.setToolTipText("");
     paLKW.add(jLabel8);
 
-    tfIDLkw.setEnabled(false);
+    tfIDLkw.setText("1");
+    tfIDLkw.setToolTipText("");
     paLKW.add(tfIDLkw);
 
     jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel11.setText("Brand");
     paLKW.add(jLabel11);
+
+    tfBrandLkw.setText("Man");
     paLKW.add(tfBrandLkw);
 
     jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel10.setText("Horsepower");
     paLKW.add(jLabel10);
+
+    tfHPLKW.setText("750");
     paLKW.add(tfHPLKW);
 
     jButton4.setText("Add");
@@ -236,16 +302,22 @@ public class FleetGUI extends javax.swing.JFrame
     jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel9.setText("Weight");
     paLKW.add(jLabel9);
+
+    tfWeightLKW.setText("4500");
     paLKW.add(tfWeightLKW);
 
     jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel12.setText("Axes");
     paLKW.add(jLabel12);
+
+    tfAxes.setText("3");
     paLKW.add(tfAxes);
 
     jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel13.setText("Kilometers");
     paLKW.add(jLabel13);
+
+    tfKilo.setText("172000");
     paLKW.add(tfKilo);
 
     jButton6.setText("Change");
@@ -262,6 +334,23 @@ public class FleetGUI extends javax.swing.JFrame
 
     getContentPane().add(paParent, java.awt.BorderLayout.PAGE_END);
 
+    jMenu1.setText("File");
+
+    jMenuItem1.setText("add Tables");
+    jMenuItem1.setToolTipText("");
+    jMenuItem1.addActionListener(new java.awt.event.ActionListener()
+    {
+      public void actionPerformed(java.awt.event.ActionEvent evt)
+      {
+        onAddTables(evt);
+      }
+    });
+    jMenu1.add(jMenuItem1);
+
+    jMenuBar1.add(jMenu1);
+
+    setJMenuBar(jMenuBar1);
+
     pack();
   }// </editor-fold>//GEN-END:initComponents
 
@@ -269,21 +358,38 @@ public class FleetGUI extends javax.swing.JFrame
   {//GEN-HEADEREND:event_onFilterPKW
     CardLayout layout = (CardLayout) paParent.getLayout();
     layout.show(paParent, "cardPKW");
-    fm.isPkw(true);
-    
+
+    CardLayout l = (CardLayout) paListParent.getLayout();
+    l.show(paListParent, "card3");
   }//GEN-LAST:event_onFilterPKW
 
   private void onFilterLKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onFilterLKW
   {//GEN-HEADEREND:event_onFilterLKW
     CardLayout layout = (CardLayout) paParent.getLayout();
     layout.show(paParent, "cardLKW");
-    fm.isPkw(false);
+
+    CardLayout l = (CardLayout) paListParent.getLayout();
+    l.show(paListParent, "card2");
     repaint();
   }//GEN-LAST:event_onFilterLKW
 
   private void onAddLKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onAddLKW
   {//GEN-HEADEREND:event_onAddLKW
-    
+    int id = Integer.parseInt(tfIDLkw.getText());
+    String brand = tfBrandLkw.getText();
+    int axes = Integer.parseInt(tfAxes.getText());
+    int hp = Integer.parseInt(tfHPLKW.getText());
+    int kilometers = Integer.parseInt(tfKilo.getText());
+    int weight = Integer.parseInt(tfWeightLKW.getText());
+
+    try
+    {
+      fml.addLKW(new LKW(id, brand, axes, weight, kilometers, hp));
+    }
+    catch (SQLException ex)
+    {
+      Logger.getLogger(FleetGUI.class.getName()).log(Level.SEVERE, null, ex);
+    }
   }//GEN-LAST:event_onAddLKW
 
   private void onChangeLKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onChangeLKW
@@ -293,18 +399,40 @@ public class FleetGUI extends javax.swing.JFrame
 
   private void onAddPKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onAddPKW
   {//GEN-HEADEREND:event_onAddPKW
-     int id = Integer.parseInt(tfID.getText());
-     String brand = tfBrand.getText();
-     String spez = tfSpez.getText();
-     int hp = Integer.parseInt(tfHorsepower.getText());
-     int seats = Integer.parseInt(tfSeats.getText());
-     int weight = Integer.parseInt(tfWeight.getText());
+    int id = Integer.parseInt(tfID.getText());
+    String brand = tfBrand.getText();
+    String spez = tfSpez.getText();
+    int hp = Integer.parseInt(tfHorsepower.getText());
+    int seats = Integer.parseInt(tfSeats.getText());
+    int weight = Integer.parseInt(tfWeight.getText());
+    System.out.println("" + id + brand + spez + hp + seats + weight);
+
+    try
+    {
+      fmp.addPKW(new PKW(id, brand, seats, spez, hp, weight));
+    }
+    catch (SQLException ex)
+    {
+      Logger.getLogger(FleetGUI.class.getName()).log(Level.SEVERE, null, ex);
+    }
   }//GEN-LAST:event_onAddPKW
 
   private void onChangePKW(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onChangePKW
   {//GEN-HEADEREND:event_onChangePKW
 
   }//GEN-LAST:event_onChangePKW
+
+  private void onAddTables(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onAddTables
+  {//GEN-HEADEREND:event_onAddTables
+    try
+    {
+      db.addTables();
+    }
+    catch (SQLException ex)
+    {
+      Logger.getLogger(FleetGUI.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }//GEN-LAST:event_onAddTables
 
   /**
    * @param args the command line arguments
@@ -376,14 +504,21 @@ public class FleetGUI extends javax.swing.JFrame
   private javax.swing.JLabel jLabel6;
   private javax.swing.JLabel jLabel8;
   private javax.swing.JLabel jLabel9;
-  private javax.swing.JPanel jPanel1;
+  private javax.swing.JMenu jMenu1;
+  private javax.swing.JMenuBar jMenuBar1;
+  private javax.swing.JMenuItem jMenuItem1;
   private javax.swing.JPanel jPanel3;
   private javax.swing.JPanel jPanel4;
   private javax.swing.JPanel jPanel5;
-  private javax.swing.JScrollPane jScrollPane1;
-  private javax.swing.JTable jtTable;
+  private javax.swing.JScrollPane jScrollPane2;
+  private javax.swing.JScrollPane jScrollPane3;
+  private javax.swing.JTable jtLKW;
+  private javax.swing.JTable jtPKW;
   private javax.swing.JPanel paLKW;
+  private javax.swing.JPanel paLKWL;
+  private javax.swing.JPanel paListParent;
   private javax.swing.JPanel paPKW;
+  private javax.swing.JPanel paPKWL;
   private javax.swing.JPanel paParent;
   private javax.swing.JRadioButton rbLKW;
   private javax.swing.JRadioButton rbPKW;
@@ -400,4 +535,5 @@ public class FleetGUI extends javax.swing.JFrame
   private javax.swing.JTextField tfWeight;
   private javax.swing.JTextField tfWeightLKW;
   // End of variables declaration//GEN-END:variables
+
 }

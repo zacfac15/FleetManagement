@@ -1,0 +1,95 @@
+package FleetModel;
+
+import Data.LKW;
+import Data.PKW;
+import Database.DB_Access;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.table.AbstractTableModel;
+
+public class FleetModelPKW extends AbstractTableModel
+{
+
+  private DB_Access db = DB_Access.getInstance();
+  private ArrayList<PKW> pkwList = new ArrayList<>();
+   private String filename = System.getProperty("user.dir")
+          + File.separator + "src"
+          + File.separator + "res"
+          + File.separator + "pkwList.ser";
+  private String[] colNamesPKW =
+  {
+    "ID", "Brand", "Spezification", "Weight", "Seats", "Horsepower"
+  };
+
+  @Override
+  public int getRowCount()
+  {
+    return pkwList.size();
+  }
+
+  @Override
+  public int getColumnCount()
+  {
+    return 6;
+  }
+
+  @Override
+  public Object getValueAt(int rowIndex, int columnIndex)
+  {
+    PKW pkw = pkwList.get(rowIndex);
+    switch (columnIndex)
+    {
+      case 0:
+        return pkw.getId();
+      case 1:
+        return pkw.getBrand();
+      case 2:
+        return pkw.getSpez();
+      case 3:
+        return pkw.getWeight();
+      case 4:
+        return pkw.getSeats();
+      case 5:
+        return pkw.getHp();
+      default:
+        return "Error";
+    }
+  }
+
+  public void addPKW(PKW p) throws SQLException
+  {
+    if (!(pkwList.contains(p)))
+    {
+      pkwList.add(p);
+      this.fireTableRowsInserted(pkwList.size() - 1, pkwList.size() - 1);
+      db.insertPKW(pkwList.size() - 1, pkwList);
+    }
+  }
+
+  public void initPKWList() throws SQLException
+  {
+    pkwList = db.getPKW();
+  }
+
+  @Override
+  public String getColumnName(int column)
+  {
+    return colNamesPKW[column];
+  }
+
+  public void saveLKW() throws IOException
+  {
+    FileOutputStream fos = new FileOutputStream(filename);
+    ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+    for (PKW pkw : pkwList)
+    {
+      oos.writeObject(pkw);
+    }
+    oos.close();
+  }
+}

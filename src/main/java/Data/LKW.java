@@ -1,13 +1,21 @@
 package Data;
 
-public class LKW extends Vehicle
+public class LKW
 {
+
+  private int id;
+  private String brand;
+  private int hp;
+  private int weight;
   private int axes;
   private int kilometers;
 
-  public LKW(int id, String brand,int axes, int weight,int kilometers,int hp)
+  public LKW(int id, String brand, int axes, int weight, int kilometers, int hp)
   {
-    super(id, brand, hp, weight);
+    this.id = id;
+    this.brand = brand;
+    this.hp = hp;
+    this.weight = weight;
     this.axes = axes;
     this.kilometers = kilometers;
   }
@@ -71,6 +79,38 @@ public class LKW extends Vehicle
   {
     this.weight = weight;
   }
+
+  @Override
+  public int hashCode()
+  {
+    int hash = 5;
+    hash = 53 * hash + this.id;
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    if (this == obj)
+    {
+      return true;
+    }
+    if (obj == null)
+    {
+      return false;
+    }
+    if (getClass() != obj.getClass())
+    {
+      return false;
+    }
+    final LKW other = (LKW) obj;
+    if (this.id != other.id)
+    {
+      return false;
+    }
+    return true;
+  }
   
   
+
 }
